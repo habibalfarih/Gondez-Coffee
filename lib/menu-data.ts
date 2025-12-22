@@ -1,13 +1,14 @@
 import type { MenuItem } from "@/types"
 
 export const menuItems: MenuItem[] = [
-  // Signature
+  // =====================
+  // SIGNATURE
+  // =====================
   {
     id: "spanish-latte",
     name: "Gondez Spanish Latte",
     category: "signature",
     description: "Manis creamy yang bikin lu mikir: kenapa baru nyobain sekarang?",
-    prices: { small: 1.5, medium: 1.5, large: 1.5 },
     image: "/espresso-shot-dark-background.jpg",
   },
   {
@@ -15,17 +16,17 @@ export const menuItems: MenuItem[] = [
     name: "Gondez Aren",
     category: "signature",
     description: "Gula aren nendang, kopi berani. Sekali teguk, susah move on.",
-    prices: { small: 1.5, medium: 1.5, large: 1.5 },
     image: "/palm-sugar-latte-coffee.jpg",
   },
 
-  // Coffee
+  // =====================
+  // COFFEE
+  // =====================
   {
     id: "oreo-latte",
     name: "Gondez Oreo Latte",
     category: "coffee",
     description: "Manis, creamy, penuh remahan oreo. Gak pesen ini, nyesel.",
-    prices: { small: 1.5, medium: 1.5, large: 1.5 },
     image: "/caffe-latte-cup.jpg",
   },
   {
@@ -33,7 +34,6 @@ export const menuItems: MenuItem[] = [
     name: "Gondez Hazelnut Latte",
     category: "coffee",
     description: "Aroma hazelnut langsung nyerang hidung. Elegan tapi nagih.",
-    prices: { small: 1.5, medium: 1.5, large: 1.5 },
     image: "/cappuccino-latte-art.jpg",
   },
   {
@@ -41,7 +41,6 @@ export const menuItems: MenuItem[] = [
     name: "Gondez Butterscotch Latte",
     category: "coffee",
     description: "Manis karamel creamy yang bikin hari buruk lu mendingan.",
-    prices: { small: 1.5, medium: 1.5, large: 1.5 },
     image: "/vietnamese-iced-coffee.png",
   },
   {
@@ -49,7 +48,6 @@ export const menuItems: MenuItem[] = [
     name: "Gondez Coffee Latte",
     category: "coffee",
     description: "Latte klasik. Gak ribet, gak drama, selalu kena.",
-    prices: { small: 1.5, medium: 1.5, large: 1.5 },
     image: "/caffe-latte-cup.jpg",
   },
   {
@@ -57,7 +55,6 @@ export const menuItems: MenuItem[] = [
     name: "Gondez Caramel Latte",
     category: "coffee",
     description: "Manis karamel pekat yang bikin lupa diet.",
-    prices: { small: 1.5, medium: 1.5, large: 1.5 },
     image: "/specialty-coffee-signature-drink.jpg",
   },
   {
@@ -65,7 +62,6 @@ export const menuItems: MenuItem[] = [
     name: "Gondez Americano",
     category: "coffee",
     description: "Pahit, tegas, tanpa basa-basi. Buat yang gak mau manja.",
-    prices: { small: 1.5, medium: 1.5, large: 1.5 },
     image: "/espresso-shot-dark-background.jpg",
   },
   {
@@ -73,7 +69,6 @@ export const menuItems: MenuItem[] = [
     name: "Gondez Vanilla Latte",
     category: "coffee",
     description: "Vanilla lembut yang bikin kopi terasa ramah tapi berkelas.",
-    prices: { small: 1.5, medium: 1.5, large: 1.5 },
     image: "/matcha-latte.png",
   },
   {
@@ -81,17 +76,17 @@ export const menuItems: MenuItem[] = [
     name: "Gondez Iris Latte",
     category: "coffee",
     description: "Rasa unik yang bikin orang lain penasaran lu minum apa.",
-    prices: { small: 1.5, medium: 1.5, large: 1.5 },
     image: "/hot-chocolate-marshmallow.jpg",
   },
 
-  // Non-Coffee
+  // =====================
+  // NON-COFFEE
+  // =====================
   {
     id: "matcha-latte",
     name: "Gondez Matcha Latte",
     category: "non-coffee",
     description: "Matcha creamy segar. Tenang di awal, nagih di akhir.",
-    prices: { small: 1.75, medium: 1.75, large: 1.75 },
     image: "/matcha-latte.png",
   },
   {
@@ -99,49 +94,44 @@ export const menuItems: MenuItem[] = [
     name: "Gondez Red Velvet",
     category: "non-coffee",
     description: "Merah menggoda, creamy brutal. Susah nolak.",
-    prices: { small: 1.75, medium: 1.75, large: 1.75 },
     image: "/hot-chocolate-marshmallow.jpg",
   },
   {
-    id: "lychee-tea",
-    name: "Lychee Tea",
-    category: "non-coffee",
-    description: "Seger parah. Minum ini, panas langsung kalah.",
-    prices: { small: 1.5, medium: 1.5, large: 1.5 },
-    image: "/iced-lemon-tea.jpg",
-  },
-  {
     id: "oreo-milkshake",
-    name: "Oreo Milkshake",
+    name: "Gondez Oreo Milkshake",
     category: "non-coffee",
     description: "Creamy, dingin, penuh oreo. Anak kecil sampe orang dewasa tunduk.",
-    prices: { small: 1.5, medium: 1.5, large: 1.5 },
     image: "/caffe-latte-cup.jpg",
+    priceConfig: {
+      nonCoffee: {
+        medium: 1.50,
+        large: 2.0,
+      },
+    },
   },
 
-  // Premium Non-Coffee
+  // =====================
+  // PREMIUM COFFEE
+  // =====================
   {
     id: "tiramisu-latte",
     name: "Gondez Tiramisu Latte",
     category: "coffee",
     description: "Dessert rasa kopi. Minum ini, kopi lain berasa hambar.",
-    prices: { small: 1.75, medium: 1.75, large: 1.75 },
     image: "/caffe-latte-cup.jpg",
   },
   {
     id: "chocolate-cookies-latte",
     name: "Gondez Chocolate Cookies Latte",
-    category: "non-coffee",
+    category: "coffee",
     description: "Cokelat pekat ketemu cookies. Dosa kecil yang bikin bahagia.",
-    prices: { small: 1.75, medium: 1.75, large: 1.75 },
     image: "/hot-chocolate-marshmallow.jpg",
   },
   {
     id: "dulce-de-leche-latte",
     name: "Gondez Dulce de Leche Latte",
-    category: "non-coffee",
+    category: "coffee",
     description: "Manis karamel susu yang bikin lu lupa dunia sebentar.",
-    prices: { small: 1.75, medium: 1.75, large: 1.75 },
     image: "/specialty-coffee-signature-drink.jpg",
   },
 ]

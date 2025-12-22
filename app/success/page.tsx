@@ -9,8 +9,27 @@ import { Button } from "@/components/ui/button"
 import { generateWhatsAppMessage } from "@/lib/utils"
 import Link from "next/link"
 
+interface OrderData {
+  customer: {
+    name: string
+    phone: string
+  }
+  items: {
+    id: string
+    name: string
+    drinkType: "ice" | "hot"
+    bean: "indonesian" | "brazilian"
+    size: "medium" | "large"
+    quantity: number
+    price: number
+    subtotal: number
+  }[]
+  total: number
+  createdAt: string
+}
+
 export default function SuccessPage() {
-  const [orderData, setOrderData] = useState<any>(null)
+  const [orderData, setOrderData] = useState<OrderData | null>(null)
 
   useEffect(() => {
     const data = localStorage.getItem("gondez-last-order")
@@ -22,11 +41,23 @@ export default function SuccessPage() {
   const handleWhatsApp = () => {
     if (!orderData) return
 
-    const message = generateWhatsAppMessage(orderData.items, orderData.name, orderData.phone, orderData.total)
+    const message = generateWhatsAppMessage(
+      orderData.items,
+      orderData.customer.name,
+      orderData.customer.phone,
+      orderData.total
+    )
 
+    // 🔥 GANTI NOMOR WA TOKO DI SINI
     const whatsappNumber = "962781901341"
-    window.open(`https://wa.me/${whatsappNumber}?text=${message}`, "_blank")
+
+    window.open(
+      `https://wa.me/${whatsappNumber}?text=${message}`,
+      "_blank"
+    )
   }
+
+  if (!orderData) return null
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#2B1E1A] via-[#3B2F2F] to-[#2B1E1A]">
@@ -39,6 +70,7 @@ export default function SuccessPage() {
           transition={{ type: "spring", duration: 0.6 }}
           className="text-center max-w-lg"
         >
+          {/* ICON */}
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
@@ -48,14 +80,19 @@ export default function SuccessPage() {
             <CheckCircle2 className="h-24 w-24 text-[#A47148]" />
           </motion.div>
 
-          <h1 className="text-4xl md:text-5xl font-black text-[#F5EDE3] mb-4">LanjutkanPembayaran☕🔥</h1>
+          {/* TITLE */}
+          <h1 className="text-4xl md:text-5xl font-black text-[#F5EDE3] mb-4">
+            Lanjutkan Pembayaran ☕🔥
+          </h1>
 
+          {/* DESC */}
           <p className="text-lg text-[#D4A574] mb-8 leading-relaxed text-pretty">
-            Kopi kamu akan kami siapkan.
+            Pesanan kamu sudah kami terima.
             <br />
-            Setelah mengkonfirmasi pembayaran di WhatsApp, langsung chat kami ya.
+            Klik tombol di bawah untuk konfirmasi lewat WhatsApp.
           </p>
 
+          {/* ACTIONS */}
           <div className="space-y-4">
             <Button
               onClick={handleWhatsApp}

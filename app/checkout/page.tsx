@@ -16,6 +16,7 @@ import Link from "next/link"
 export default function CheckoutPage() {
   const router = useRouter()
   const { items, getTotalPrice, clearCart } = useCartStore()
+
   const [name, setName] = useState("")
   const [phone, setPhone] = useState("")
   const [isProcessing, setIsProcessing] = useState(false)
@@ -33,19 +34,24 @@ export default function CheckoutPage() {
     // Simulate payment processing
     await new Promise((resolve) => setTimeout(resolve, 1500))
 
+    // 🔥 ORDER DATA (STRUKTUR BARU)
     const orderData = {
-      name,
-      phone,
+      customer: {
+        name,
+        phone,
+      },
       items: items.map((item) => ({
-        item: {
-          name: item.item.name,
-          prices: item.item.prices,
-        },
+        id: item.id,
+        name: item.name,
+        drinkType: item.drinkType,
+        bean: item.bean,
         size: item.size,
         quantity: item.quantity,
-        price: item.item.prices[item.size] * item.quantity,
+        price: item.price,
+        subtotal: item.price * item.quantity,
       })),
       total,
+      createdAt: new Date().toISOString(),
     }
 
     localStorage.setItem("gondez-last-order", JSON.stringify(orderData))
@@ -53,13 +59,18 @@ export default function CheckoutPage() {
     router.push("/success")
   }
 
+  // EMPTY CART
   if (items.length === 0) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-[#2B1E1A] via-[#3B2F2F] to-[#2B1E1A] flex items-center justify-center">
         <div className="text-center p-8">
-          <h2 className="text-2xl font-bold text-[#F5EDE3] mb-4">Keranjang kosong</h2>
+          <h2 className="text-2xl font-bold text-[#F5EDE3] mb-4">
+            Keranjang kosong
+          </h2>
           <Link href="/menu">
-            <Button className="bg-[#A47148] hover:bg-[#A47148]/90 text-[#2B1E1A]">Kembali ke Menu</Button>
+            <Button className="bg-[#A47148] hover:bg-[#A47148]/90 text-[#2B1E1A]">
+              Kembali ke Menu
+            </Button>
           </Link>
         </div>
       </div>
@@ -72,15 +83,25 @@ export default function CheckoutPage() {
 
       <main className="container mx-auto px-4 pt-28 pb-20 max-w-2xl">
         <Link href="/menu">
-          <Button variant="ghost" className="text-[#F5EDE3] hover:text-[#A47148] hover:bg-[#3B2F2F] mb-8">
+          <Button
+            variant="ghost"
+            className="text-[#F5EDE3] hover:text-[#A47148] hover:bg-[#3B2F2F] mb-8"
+          >
             <ArrowLeft className="mr-2 h-4 w-4" />
             Kembali
           </Button>
         </Link>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="space-y-8"
+        >
+          {/* HEADER */}
           <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-black text-[#F5EDE3] mb-3">Hampir Sampai ☕</h1>
+            <h1 className="text-4xl md:text-5xl font-black text-[#F5EDE3] mb-3">
+              Hampir Sampai ☕
+            </h1>
             <p className="text-[#D4A574] leading-relaxed">
               Isi data singkat di bawah ini,
               <br />
@@ -88,24 +109,37 @@ export default function CheckoutPage() {
             </p>
           </div>
 
+          {/* ORDER SUMMARY */}
           <div className="bg-[#3B2F2F] rounded-2xl p-6 border border-[#A47148]/30 space-y-4">
-            <h2 className="font-bold text-[#F5EDE3] text-lg mb-4">Ringkasan Pesanan</h2>
+            <h2 className="font-bold text-[#F5EDE3] text-lg mb-4">
+              Ringkasan Pesanan
+            </h2>
+
             {items.map((cartItem) => (
-              <div key={`${cartItem.item.id}-${cartItem.size}`} className="flex justify-between text-sm">
+              <div
+                key={`${cartItem.id}-${cartItem.drinkType}-${cartItem.bean}-${cartItem.size}`}
+                className="flex justify-between text-sm"
+              >
                 <span className="text-[#D4A574]">
-                  {cartItem.quantity}x {cartItem.item.name} ({cartItem.size})
+                  {cartItem.quantity}x {cartItem.name} (
+                  {cartItem.drinkType}, {cartItem.bean}, {cartItem.size})
                 </span>
+
                 <span className="text-[#F5EDE3] font-semibold">
-                  {formatPrice(cartItem.item.prices[cartItem.size] * cartItem.quantity)}
+                  {formatPrice(cartItem.price * cartItem.quantity)}
                 </span>
               </div>
             ))}
+
             <div className="border-t border-[#A47148]/30 pt-4 flex justify-between text-lg font-bold">
               <span className="text-[#F5EDE3]">Total</span>
-              <span className="text-[#A47148]">{formatPrice(total)}</span>
+              <span className="text-[#A47148]">
+                {formatPrice(total)}
+              </span>
             </div>
           </div>
 
+          {/* CUSTOMER FORM */}
           <div className="bg-[#3B2F2F] rounded-2xl p-6 border border-[#A47148]/30 space-y-6">
             <div className="space-y-2">
               <Label htmlFor="name" className="text-[#A47148] font-semibold">
@@ -136,12 +170,15 @@ export default function CheckoutPage() {
             </div>
           </div>
 
+          {/* PAY BUTTON */}
           <Button
             onClick={handlePayment}
             disabled={isProcessing}
             className="w-full bg-[#A47148] hover:bg-[#A47148]/90 text-[#2B1E1A] font-bold py-6 text-lg"
           >
-            {isProcessing ? "Memproses..." : "💳 Lanjutkan Pembayaran di WhatsApp"}
+            {isProcessing
+              ? "Memproses..."
+              : "💳 Lanjutkan Pembayaran di WhatsApp"}
           </Button>
         </motion.div>
       </main>
