@@ -25,13 +25,20 @@ export interface CartItem {
   quantity: number
 }
 
+/**
+ * 🔑 helper buat unique cart key
+ * (product + variant)
+ */
+const getCartKey = (item: CartItem) =>
+  `${item.id}-${item.size}-${item.drinkType ?? "na"}-${item.bean ?? "na"}`
+
 interface CartStore {
   items: CartItem[]
   isOpen: boolean
 
   addItem: (item: CartItem) => void
-  removeItem: (item: CartItem) => void
-  updateQuantity: (item: CartItem, quantity: number) => void
+  removeItem: (key: string) => void
+  updateQuantity: (key: string, quantity: number) => void
 
   clearCart: () => void
   getTotalItems: () => number
@@ -51,20 +58,19 @@ export const useCartStore = create<CartStore>()(
       items: [],
       isOpen: false,
 
+      /* ➕ ADD ITEM */
       addItem: (newItem) => {
+        const newKey = getCartKey(newItem)
+
         set((state) => {
           const existing = state.items.find(
-            (i) =>
-              i.id === newItem.id &&
-              i.size === newItem.size &&
-              i.drinkType === newItem.drinkType &&
-              i.bean === newItem.bean
+            (i) => getCartKey(i) === newKey
           )
 
           if (existing) {
             return {
               items: state.items.map((i) =>
-                i === existing
+                getCartKey(i) === newKey
                   ? { ...i, quantity: i.quantity + newItem.quantity }
                   : i
               ),
@@ -75,31 +81,24 @@ export const useCartStore = create<CartStore>()(
         })
       },
 
-      removeItem: (item) =>
+      /* ❌ REMOVE ITEM */
+      removeItem: (key) =>
         set((state) => ({
           items: state.items.filter(
-            (i) =>
-              !(
-                i.id === item.id &&
-                i.size === item.size &&
-                i.drinkType === item.drinkType &&
-                i.bean === item.bean
-              )
+            (i) => getCartKey(i) !== key
           ),
         })),
 
-      updateQuantity: (item, quantity) => {
+      /* 🔁 UPDATE QTY */
+      updateQuantity: (key, quantity) => {
         if (quantity <= 0) {
-          get().removeItem(item)
+          get().removeItem(key)
           return
         }
 
         set((state) => ({
           items: state.items.map((i) =>
-            i.id === item.id &&
-            i.size === item.size &&
-            i.drinkType === item.drinkType &&
-            i.bean === item.bean
+            getCartKey(i) === key
               ? { ...i, quantity }
               : i
           ),
@@ -112,7 +111,10 @@ export const useCartStore = create<CartStore>()(
         get().items.reduce((t, i) => t + i.quantity, 0),
 
       getTotalPrice: () =>
-        get().items.reduce((t, i) => t + i.price * i.quantity, 0),
+        get().items.reduce(
+          (t, i) => t + i.price * i.quantity,
+          0
+        ),
 
       openCart: () => set({ isOpen: true }),
       closeCart: () => set({ isOpen: false }),

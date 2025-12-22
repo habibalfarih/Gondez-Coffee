@@ -3,9 +3,13 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { Toaster } from "@/components/ui/toaster"
+import { LanguageProvider } from "@/context/language-context"
 import "./globals.css"
 
-const inter = Inter({ subsets: ["latin"], weight: ["400", "500", "600", "700", "800", "900"] })
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+})
 
 export const metadata: Metadata = {
   title: "Gondez Coffee - Kopi yang baik akan menemukan penikmatnya",
@@ -16,16 +20,19 @@ export const metadata: Metadata = {
   },
 }
 
-
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode
-}>) {
+}) {
   return (
     <html lang="id">
       <body className={`${inter.className} antialiased`}>
-        {children}
+        <LanguageProvider>
+          {children}
+        </LanguageProvider>
+
+        {/* GLOBAL UI */}
         <Toaster />
         <Analytics />
       </body>

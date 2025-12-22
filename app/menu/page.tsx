@@ -5,22 +5,31 @@ import { motion } from "framer-motion"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { CartDrawer } from "@/components/cart-drawer"
+import { FloatingCart } from "@/components/floating-cart"
 import { MenuCard } from "@/components/menu-card"
 import { MenuModal } from "@/components/menu-modal"
 import { menuItems } from "@/lib/menu-data"
+import { useCartStore } from "@/lib/cart-store"
+import { useLanguage } from "@/context/language-context"
 import type { MenuItem } from "@/types"
 
+/**
+ * 🔑 CATEGORY KEYS (LABEL AMBIL DARI i18n)
+ */
 const categories = [
-  { id: "all", label: "Semua" },
-  { id: "coffee", label: "Coffee" },
-  { id: "non-coffee", label: "Non-Coffee" },
-  { id: "signature", label: "Signature" },
+  { id: "all", key: "all" },
+  { id: "coffee", key: "coffee" },
+  { id: "non-coffee", key: "nonCoffee" },
+  { id: "signature", key: "signature" },
 ]
 
 export default function MenuPage() {
   const [selectedCategory, setSelectedCategory] = useState("all")
   const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const { isOpen: isCartOpen } = useCartStore()
+  const { t } = useLanguage()
 
   const filteredItems =
     selectedCategory === "all"
@@ -40,9 +49,14 @@ export default function MenuPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#2B1E1A] via-[#3B2F2F] to-[#2B1E1A]">
       <Navbar />
+
+      {/* CART */}
       <CartDrawer />
 
-      {/* ✅ MODAL HARUS CONDITIONAL */}
+      {/* FLOATING CART AUTO HIDE */}
+      <FloatingCart hide={isModalOpen || isCartOpen} />
+
+      {/* MENU MODAL */}
       {isModalOpen && selectedItem && (
         <MenuModal
           item={selectedItem}
@@ -61,20 +75,20 @@ export default function MenuPage() {
           <div className="flex items-center justify-center gap-4">
             <div className="text-right leading-tight">
               <div className="text-sm md:text-base font-semibold tracking-[0.28em] text-[#D4A574] uppercase">
-                Gondez
+                GONDEZ
               </div>
               <div className="text-sm md:text-base font-semibold tracking-[0.28em] text-[#D4A574] uppercase">
-                Coffee
+                COFFEE
               </div>
             </div>
 
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-[#F5EDE3] uppercase">
-              Menu
+              {t.menu}
             </h1>
           </div>
 
           <p className="mt-2 text-sm md:text-lg text-[#D4A574] tracking-wide opacity-90 text-center">
-            Diracik dengan rasa, disajikan dengan cerita.
+            {t.menuSubtitle ?? "Diracik dengan rasa, disajikan dengan cerita."}
           </p>
         </motion.div>
 
@@ -95,7 +109,7 @@ export default function MenuPage() {
                   : "bg-[#3B2F2F] text-[#D4A574] hover:bg-[#3B2F2F]/80 border border-[#A47148]/30"
               }`}
             >
-              {category.label}
+              {t[category.key as keyof typeof t]}
             </button>
           ))}
         </motion.div>

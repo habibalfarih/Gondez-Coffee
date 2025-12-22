@@ -77,27 +77,46 @@ export function generateWhatsAppMessage(
   items: WhatsAppCartItem[],
   name: string,
   phone: string,
-  total: number
+  total: number,
+  orderType: "pickup" | "delivery",
+  deliveryNote?: string
 ): string {
+  const DELIVERY_FEE = 0.25
+
   let message = `*Pesanan Baru Gondez Coffee* ☕\n\n`
+
   message += `*Nama:* ${name}\n`
   message += `*No HP:* ${phone}\n\n`
-  message += `*Detail Pesanan:*\n`
+
+  // 🔥 ORDER TYPE
+  message += `*Jenis Pesanan:* ${
+    orderType === "pickup" ? "Self Pickup" : "Delivery"
+  }\n`
+
+  if (orderType === "delivery" && deliveryNote) {
+    message += `*Alamat Delivery:* ${deliveryNote}\n`
+  }
+
+  message += `\n*Detail Pesanan:*\n`
 
   items.forEach((item) => {
+    const sizeLabel = item.size === "medium" ? "Regular" : "Large"
     const itemTotal = item.price * item.quantity
 
-    const variantInfo = item.drinkType
-      ? `${item.drinkType}, ${item.bean}, ${item.size}`
-      : `${item.size}`
-
-    message += `• ${item.quantity}x ${item.name} (${variantInfo}) - ${formatPrice(
+    message += `• ${item.quantity}x ${item.name} (${sizeLabel}) - ${formatPrice(
       itemTotal
     )}\n`
   })
 
+  // 🔥 DELIVERY FEE (ONLY IF DELIVERY)
+  if (orderType === "delivery") {
+    message += `• Delivery Fee - ${formatPrice(DELIVERY_FEE)}\n`
+  }
+
   message += `\n*Total:* ${formatPrice(total)}\n\n`
-  message += `Terima kasih sudah pesan di Gondez Coffee! 🔥`
+  message += `Terima kasih sudah pesan di Gondez Coffee! ☕🔥`
 
   return encodeURIComponent(message)
 }
+
+

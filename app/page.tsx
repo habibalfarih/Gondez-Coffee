@@ -18,7 +18,7 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center px-4 pt-16">
         <div className="absolute inset-0 opacity-10">
-          <Image src="/coffee-shop-interior-warm-lighting.jpg" alt="Coffee shop background" fill className="object-cover" />
+          <Image src="/bg9.jpeg" alt="Coffee shop background" fill className="object-cover" />
         </div>
 
         <div className="relative z-10 container mx-auto text-center">
@@ -48,7 +48,7 @@ export default function HomePage() {
             >
               Di Gondez Coffee, kopi bukan cuma minuman.
               <br />
-              Ini soal cerita, tawa, dan waktu yang dibagi bareng.
+              Ini soal cerita, tawa, dan waktu yang dibagi bersama.
             </motion.p>
 
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}>

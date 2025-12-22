@@ -14,19 +14,26 @@ interface OrderData {
     name: string
     phone: string
   }
+
+  orderType: "pickup" | "delivery"
+  deliveryNote?: string
+  deliveryFee?: number
+
   items: {
     id: string
     name: string
-    drinkType: "ice" | "hot"
-    bean: "indonesian" | "brazilian"
+    drinkType?: "ice" | "hot"
+    bean?: "indonesian" | "brazilian"
     size: "medium" | "large"
     quantity: number
     price: number
     subtotal: number
   }[]
+
   total: number
   createdAt: string
 }
+
 
 export default function SuccessPage() {
   const [orderData, setOrderData] = useState<OrderData | null>(null)
@@ -45,8 +52,11 @@ export default function SuccessPage() {
       orderData.items,
       orderData.customer.name,
       orderData.customer.phone,
-      orderData.total
+      orderData.total,
+      orderData.orderType,
+      orderData.deliveryNote
     )
+    
 
     // 🔥 GANTI NOMOR WA TOKO DI SINI
     const whatsappNumber = "962781901341"
@@ -87,9 +97,9 @@ export default function SuccessPage() {
 
           {/* DESC */}
           <p className="text-lg text-[#D4A574] mb-8 leading-relaxed text-pretty">
-            Pesanan kamu sudah kami terima.
+            Pesanan kamu akan kami siapkan setelah konfirmasi pembayaran.
             <br />
-            Klik tombol di bawah untuk konfirmasi lewat WhatsApp.
+            Klik tombol di bawah untuk konfirmasi pembayaran lewat WhatsApp.
           </p>
 
           {/* ACTIONS */}

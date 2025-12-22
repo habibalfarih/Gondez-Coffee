@@ -259,7 +259,9 @@ export function MenuModal({ item, isOpen, onClose }: MenuModalProps) {
                                 : "bg-[#2B1E1A] text-[#D4A574]"
                             }`}
                           >
-                            <div className="capitalize">{s}</div>
+                            <div className="capitalize">
+                              {s === "medium" ? "Regular" : "Large"}
+                            </div>
                             <div className="text-xs">
                               {formatPrice(displayPrice)}
                             </div>
