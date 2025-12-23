@@ -3,29 +3,43 @@
 import { createContext, useContext, useEffect, useState } from "react"
 import { translations, Lang } from "@/lib/i18n"
 
+/**
+ * 🔑 AMBIL TIPE DARI KEY, BUKAN VALUE
+ * Semua bahasa WAJIB punya key yang sama
+ */
+type TranslationKeys = keyof typeof translations.id
+export type Translation = Record<TranslationKeys, string>
+
 type LanguageContextType = {
   lang: Lang
   setLang: (l: Lang) => void
-  t: typeof translations.id
+  t: Translation
   isRTL: boolean
 }
 
 const LanguageContext = createContext<LanguageContextType | null>(null)
 
-export function LanguageProvider({ children }: { children: React.ReactNode }) {
+export function LanguageProvider({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   const [lang, setLang] = useState<Lang>("id")
 
+  // 🔥 LOAD SAVED LANGUAGE
   useEffect(() => {
-    const saved = localStorage.getItem("lang") as Lang
-    if (saved) setLang(saved)
+    const saved = localStorage.getItem("lang") as Lang | null
+    if (saved && translations[saved]) {
+      setLang(saved)
+    }
   }, [])
 
+  // 🔥 APPLY LANGUAGE + RTL
   useEffect(() => {
     localStorage.setItem("lang", lang)
 
-    // 🔥 RTL HANDLER
-    document.documentElement.dir = lang === "ar" ? "rtl" : "ltr"
     document.documentElement.lang = lang
+    document.documentElement.dir = lang === "ar" ? "rtl" : "ltr"
   }, [lang])
 
   return (
@@ -33,7 +47,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
       value={{
         lang,
         setLang,
-        t: translations[lang],
+        t: translations[lang] as Translation,
         isRTL: lang === "ar",
       }}
     >
@@ -44,6 +58,8 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
 export function useLanguage() {
   const ctx = useContext(LanguageContext)
-  if (!ctx) throw new Error("useLanguage must be used inside LanguageProvider")
+  if (!ctx) {
+    throw new Error("useLanguage must be used inside LanguageProvider")
+  }
   return ctx
 }
