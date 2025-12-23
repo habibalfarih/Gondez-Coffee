@@ -8,7 +8,6 @@ export const translations = {
     homeTitle3: "penikmatnya.",
     homeSubtitle1: "Di Gondez Coffee, kopi bukan cuma minuman.",
     homeSubtitle2: "Ini soal cerita, tawa, dan waktu yang dibagi bersama.",
-    orderNow: "Pesan Kopi Sekarang",
     homeCTA: "Pesan Kopi Sekarang",
 
     aboutTitle1: "Sobat Gondez,",
@@ -23,6 +22,13 @@ export const translations = {
     coffee: "Coffee",
     nonCoffee: "Non-Coffee",
     signature: "Signature",
+
+    menu_spanish_name: "Gondez Spanish Latte",
+    menu_spanish_desc: "Manis creamy yang bikin lu mikir: kenapa baru nyobain sekarang?",
+    menu_oreo_name: "Gondez Oreo Latte",
+    menu_oreo_desc: "Manis, creamy, penuh remahan oreo. Gak pesen ini, nyesel.",
+    tapToOrder: "Ketuk untuk pesan",
+    startFrom: "Mulai dari",
 
     /* ===== MODAL ===== */
     addToCart: "Tambah ke Keranjang",
@@ -71,7 +77,6 @@ export const translations = {
     homeTitle3: "its people.",
     homeSubtitle1: "At Gondez Coffee, coffee is more than a drink.",
     homeSubtitle2: "It's about stories, laughter, and shared time.",
-    orderNow: "Order Coffee Now",
     homeCTA: "Order Coffee Now",
 
     aboutTitle1: "Dear Friends,",
@@ -129,7 +134,6 @@ export const translations = {
     homeTitle3: "من يستمتع بها",
     homeSubtitle1: "في غونديز، القهوة أكثر من مجرد مشروب.",
     homeSubtitle2: "إنها قصص وضحكات ووقت مشترك.",
-    orderNow: "اطلب القهوة الآن",
     homeCTA: "اطلب القهوة الآن",
 
     aboutTitle1: "أصدقاء غونديز،",
@@ -185,7 +189,6 @@ export const translations = {
     homeTitle3: "penikmatnya.",
     homeSubtitle1: "Di Gondez Coffee, kopi bukan sekadar minuman.",
     homeSubtitle2: "Ia tentang cerita, tawa, dan masa yang dikongsi.",
-    orderNow: "Pesan Kopi Sekarang",
     homeCTA: "Pesan Kopi Sekarang",
   
     aboutTitle1: "Sahabat Gondez,",
@@ -241,7 +244,7 @@ export const translations = {
     homeTitle3: "คนที่ใช่",
     homeSubtitle1: "ที่ Gondez Coffee กาแฟไม่ใช่แค่เครื่องดื่ม",
     homeSubtitle2: "แต่มันคือเรื่องราว เสียงหัวเราะ และเวลาที่แบ่งปัน",
-    orderNow: "สั่งกาแฟตอนนี้",
+   
     homeCTA: "สั่งกาแฟตอนนี้",
   
     aboutTitle1: "เพื่อน ๆ Gondez",
@@ -297,7 +300,7 @@ export const translations = {
     homeTitle3: "懂它的人",
     homeSubtitle1: "在 Gondez Coffee，咖啡不只是饮品。",
     homeSubtitle2: "它是故事、笑声和共享的时光。",
-    orderNow: "立即点咖啡",
+    
     homeCTA: "立即点咖啡",
   
     aboutTitle1: "Gondez 的朋友们，",

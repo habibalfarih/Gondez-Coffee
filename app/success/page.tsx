@@ -34,7 +34,6 @@ interface OrderData {
   createdAt: string
 }
 
-
 export default function SuccessPage() {
   const [orderData, setOrderData] = useState<OrderData | null>(null)
 

@@ -133,5 +133,6 @@ export const menuItems: MenuItem[] = [
     category: "coffee",
     description: "Manis karamel susu yang bikin lu lupa dunia sebentar.",
     image: "/dulcelate.jpg",
+    
   },
 ]
