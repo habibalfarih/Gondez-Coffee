@@ -29,7 +29,7 @@ function getStartingPrice(item: MenuItem): number {
     )
   }
 
-  return 1.75
+  return 1.50
 }
 
 export function MenuCard({ item, onClick }: MenuCardProps) {

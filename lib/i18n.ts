@@ -28,7 +28,7 @@ export const translations = {
     menu_oreo_name: "Gondez Oreo Latte",
     menu_oreo_desc: "Manis, creamy, penuh remahan oreo. Gak pesen ini, nyesel.",
     tapToOrder: "Ketuk untuk pesan",
-    startFrom: "Mulai dari",
+    priceFrom: "Mulai dari",
 
     /* ===== MODAL ===== */
     addToCart: "Tambah ke Keranjang",
