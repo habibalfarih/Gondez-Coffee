@@ -16,16 +16,22 @@ export function formatPrice(price: number): string {
 }
 
 /* ================================
-   PRICE ENGINE (SESUAI CLIENT)
+   SIZE FORMAT (DISPLAY ONLY)
+================================ */
+function formatSize(size: "medium" | "large"): string {
+  return size === "medium" ? "regular" : "large"
+}
+
+/* ================================
+   PRICE ENGINE
 ================================ */
 
-// ☕ COFFEE (ICE / HOT + BEANS)
+// ☕ COFFEE
 export function getCoffeePrice(
   drinkType: "ice" | "hot",
   bean: "brazilian" | "indonesian",
   size: "medium" | "large"
 ): number {
-  // ICE COFFEE
   if (drinkType === "ice") {
     if (bean === "brazilian") {
       return size === "medium" ? 1.5 : 2.25
@@ -33,22 +39,19 @@ export function getCoffeePrice(
     return size === "medium" ? 1.75 : 2.5
   }
 
-  // HOT COFFEE
   if (bean === "brazilian") {
     return size === "medium" ? 1.75 : 2.5
   }
+
   return size === "medium" ? 2.0 : 2.75
 }
 
-// 🥛 NON-COFFEE (NO ICE/HOT, NO BEANS)
+// 🥛 NON-COFFEE
 export function getNonCoffeePrice(
   productId: string,
   size: "medium" | "large"
 ): number {
-  const priceMap: Record<
-    string,
-    { medium: number; large: number }
-  > = {
+  const priceMap: Record<string, { medium: number; large: number }> = {
     "matcha-latte": { medium: 1.75, large: 2.25 },
     "red-velvet": { medium: 1.75, large: 2.25 },
     "oreo-milkshake": { medium: 1.5, large: 2.0 },
@@ -58,7 +61,7 @@ export function getNonCoffeePrice(
 }
 
 /* ================================
-   CART ITEM TYPE (FINAL)
+   CART ITEM TYPE
 ================================ */
 export interface WhatsAppCartItem {
   id: string
@@ -88,35 +91,39 @@ export function generateWhatsAppMessage(
   message += `*Nama:* ${name}\n`
   message += `*No HP:* ${phone}\n\n`
 
-  // 🔥 ORDER TYPE
+  // 🔥 ALWAYS SHOW ORDER TYPE
   message += `*Jenis Pesanan:* ${
     orderType === "pickup" ? "Self Pickup" : "Delivery"
   }\n`
 
+  // 🔥 DELIVERY ADDRESS (ONLY IF DELIVERY)
   if (orderType === "delivery" && deliveryNote) {
     message += `*Alamat Delivery:* ${deliveryNote}\n`
   }
 
-  message += `\n*Detail Pesanan:*\n`
+  message += `*Detail Pesanan:*\n`
 
   items.forEach((item) => {
-    const sizeLabel = item.size === "medium" ? "Regular" : "Large"
+    const details: string[] = []
+
+    if (item.drinkType) details.push(item.drinkType)
+    if (item.bean) details.push(item.bean)
+    details.push(formatSize(item.size)) // ✅ FIXED
+
+    const detailText = details.join(", ")
     const itemTotal = item.price * item.quantity
 
-    message += `• ${item.quantity}x ${item.name} (${sizeLabel}) - ${formatPrice(
+    message += `• ${item.quantity}x ${item.name} (${detailText}) - ${formatPrice(
       itemTotal
     )}\n`
   })
 
-  // 🔥 DELIVERY FEE (ONLY IF DELIVERY)
   if (orderType === "delivery") {
     message += `• Delivery Fee - ${formatPrice(DELIVERY_FEE)}\n`
   }
 
   message += `\n*Total:* ${formatPrice(total)}\n\n`
-  message += `Terima kasih sudah pesan di Gondez Coffee! ☕🔥`
+  message += `Terima kasih sudah pesan di Gondez Coffee! 🔥`
 
   return encodeURIComponent(message)
 }
-
-
